@@ -6,7 +6,7 @@
 
     <groupId>top.moxingwang.debezium</groupId>
     <artifactId>DebeziumTimestampConverter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1.RELEASE</version>
 
     <description>
         A Kafka Connect Transformer /(SMT) to convert all datetime column values into Timestamp format.
