@@ -425,8 +425,6 @@ public abstract class DebeziumTimestampConverter<R extends ConnectRecord<R>> imp
 
     @Override
     public R apply(R record) {
-        System.out.println("开始-----------------------------------------------------3223");
-        System.out.println(record);
         if (operatingSchema(record) == null) {
             return applySchemaless(record);
         } else {
@@ -592,18 +590,8 @@ public abstract class DebeziumTimestampConverter<R extends ConnectRecord<R>> imp
     }
 
     private Struct applyValueWithSchema(Struct value, Schema updatedSchema) {
-        System.out.println("kaishi----------------------------------333");
-        System.out.println(value.toString());
-        System.out.println(updatedSchema.toString());
-        System.out.println(config.toString());
-        System.out.println(config.field);
-        System.out.println(config.struct_field);
-        System.out.println("config.struct_field" + config.field_type.length);
-        System.out.println("config.field_type.length" + config.field_type.length);
         Struct updatedValue = new Struct(updatedSchema);
         for (Field field : value.schema().fields()) {
-            System.out.println(field.toString());
-            System.out.println(value.get(field));
 
             final Object updatedFieldValue;
 
@@ -623,14 +611,9 @@ public abstract class DebeziumTimestampConverter<R extends ConnectRecord<R>> imp
                 } else { //If not config.struct_field, we leave the field value as it is.
                     updatedFieldValue = value.get(field);
                 }
-                System.out.println("------------------1");
             } else if (field.name().equals(config.field)) {
-                System.out.println("------------------2");
-
                 updatedFieldValue = convertTimestamp(value.get(field), timestampTypeFromSchema(field.schema()), field);
             } else {
-                System.out.println("------------------3");
-
                 updatedFieldValue = value.get(field);
             }
             updatedValue.put(field.name(), updatedFieldValue);
@@ -648,10 +631,6 @@ public abstract class DebeziumTimestampConverter<R extends ConnectRecord<R>> imp
      * Determine the type/format of the timestamp based on the schema
      */
     private String timestampTypeFromSchema(Schema schema) {
-        System.out.println("开始------------------------------------------");
-
-
-        System.out.println(schema.toString());
         if (Timestamp.LOGICAL_NAME.equals(schema.name())) {
             return TYPE_TIMESTAMP;
         } else if (org.apache.kafka.connect.data.Date.LOGICAL_NAME.equals(schema.name())) {
